@@ -1,0 +1,21 @@
+{
+  "name": "cli-tool",
+  "version": "1.0.0",
+  "description": "loads data from csv",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "start": "npm run build && node -r dotenv/config dist/index.js",
+    "migrate:generate": "npm run build && typeorm migration:generate --config dist/data_module/config/migrations-config.js",
+    "migrate:run": "npm run build && typeorm migration:run --config dist/data_module/config/migrations-config.js"
+  },
+  "author": "Sebastian Vega",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.12.3",
+    "dotenv": "^8.2.0",
+    "mysql": "^2.17.1",
+    "typeorm": "^0.2.20",
+    "typescript": "^3.6.4"
+  }
+}
