@@ -60,7 +60,7 @@ async function main() {
 
 function write(row: CsvRow, enc: string, cb: (err?: Error | null) => void): void {
     rows.push(row);
-    if (rows.length === 100) {
+    if (rows.length === 10000) {
         writeToDB(rows)
             .then(() => {
                 rows = []
