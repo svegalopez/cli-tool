@@ -6,8 +6,9 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "start": "npm run build && node -r dotenv/config dist/index.js",
-    "migrate:generate": "npm run build && typeorm migration:generate --config dist/data_module/config/migrations-config.js",
-    "migrate:run": "npm run build && typeorm migration:run --config dist/data_module/config/migrations-config.js"
+    "migrate:generate": "npm run build && typeorm migration:generate --config dist/data/config/migrations-config.js",
+    "migrate:run": "npm run build && typeorm migration:run --config dist/data/config/migrations-config.js",
+    "migrate:revert": "npm run build && typeorm migration:revert --config dist/data/config/migrations-config.js"
   },
   "author": "Sebastian Vega",
   "license": "ISC",

@@ -14,8 +14,8 @@ export class Story {
     @Column({ unique: true })
     title!: string
 
-    @Column()
-    privacy!: boolean
+    @Column({ type: 'varchar', length: '32' })
+    privacy!: "private" | "public"
 
     @Column()
     likes!: number

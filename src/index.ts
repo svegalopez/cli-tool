@@ -1,19 +1,66 @@
 import { createReadStream } from 'fs';
-import { Writable, WritableOptions } from 'stream';
+import { Writable } from 'stream';
+import { getConnection, InsertQueryBuilder } from 'typeorm';
+import { connectToDb } from './data';
+import { Story } from './data/entities/Story';
 const csv = require('fast-csv');
 
-type Story = {
-    launchDate: string,
-    title: string,
-    privacy: 'public' | 'private',
-    likes: number
+type CsvRow = { launchDate: string, title: string, privacy: string, likes: string }
+type StoryReq = Omit<Story, "id">
+
+let rows: CsvRow[] = [];
+let qb: InsertQueryBuilder<Story>;
+
+async function main() {
+
+    await connectToDb()
+
+    qb = getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(Story)
+
+    const readStream = createReadStream('./stories.csv')
+    const transformStream = readStream.pipe(csv.parse({ headers: true }))
+    const writeStream = new Writable({ write, objectMode: true })
+
+    transformStream.pipe(writeStream).on('finish', () => {
+        // insert the remainders
+        if (rows.length > 0) {
+            writeToDB(rows)
+                .then(() => {
+                    rows = [];
+                    console.log('finished')
+                    getConnection().close()
+                })
+                .catch((err: Error) => {
+                    console.error(err)
+                })
+        }
+    })
+
+    writeStream.on('error', (err: Error) => {
+        console.log('There was an error writing: ')
+        console.log(err)
+        getConnection().close()
+    })
+
+    readStream.on('error', (err: Error) => {
+        console.log('There was an error reading: ')
+        console.error(err)
+        getConnection().close()
+    })
+
+    transformStream.on('error', (err: Error) => {
+        console.log('There was an error transforming: ')
+        console.error(err)
+        getConnection().close()
+    })
 }
 
-let rows: Story[] = [];
-
-const write = (row: Story, enc: string, cb: (err?: Error | null) => void): void => {
+function write(row: CsvRow, enc: string, cb: (err?: Error | null) => void): void {
     rows.push(row);
-    if (rows.length === 100000) {
+    if (rows.length === 100) {
         writeToDB(rows)
             .then(() => {
                 rows = []
@@ -27,46 +74,38 @@ const write = (row: Story, enc: string, cb: (err?: Error | null) => void): void 
     }
 }
 
-const readStream = createReadStream('./stories.csv')
-const transformStream = readStream.pipe(csv.parse({ headers: true }))
-const writeStream = new Writable({ write, objectMode: true })
+async function writeToDB(rows: CsvRow[]): Promise<void> {
 
-transformStream.pipe(writeStream).on('finish', () => {
-    if (rows.length > 0) {
-        writeToDB(rows)
-            .then(() => {
-                rows = [];
-                console.log('done')
-            })
-            .catch((err: Error) => {
-                console.log(err)
-            })
-    }
-})
+    const asserted = rows.map(el => {
+        const storyReq: StoryReq = {
+            likes: parseInt(el.likes),
+            privacy: el.privacy as "private" | "public",
+            launchDate: el.launchDate,
+            title: el.title
 
-function writeToDB(rows: Story[]): Promise<void> {
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            console.log(rows)
-            res()
-        }, 100)
+        }
+        if (isStoryReq(storyReq)) return storyReq
+        else throw Error(`${JSON.stringify(el)} does not meet schema`)
     })
+
+    await qb
+        .values(asserted)
+        .execute();
+
+    console.log(`saved ${asserted.length} rows`);
 }
 
-writeStream.on('error', (err: Error) => {
-    console.log('There was an error writing: ')
-    console.log(err)
-})
+function isStoryReq(args: any): args is StoryReq {
+    return typeof args.launchDate === "string"
+        && typeof args.likes === "number"
+        && typeof args.title === "string"
+        && typeof args.privacy === "string"
+        && ["private", "public"].includes(args.privacy)
+}
 
-readStream.on('error', (err: Error) => {
-    console.log('There was an error reading: ')
-    console.error(err)
-})
+main().catch(err => console.error(err))
 
-transformStream.on('error', (err: Error) => {
-    console.log('There was an error transforming: ')
-    console.error(err)
-})
+
 
 
 

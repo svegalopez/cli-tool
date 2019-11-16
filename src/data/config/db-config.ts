@@ -2,18 +2,18 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
 
 export const config: MysqlConnectionOptions = {
     type: "mysql",
-    port: process.env.DB1_PORT ? parseInt(process.env.DB1_PORT) : 3306,
-    host: process.env.DB1_HOST || 'localhost',
-    username: process.env.DB1_USERNAME,
-    password: process.env.DB1_PASSWORD,
-    database: process.env.DB1_NAME,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
+    host: process.env.DB_HOST || 'localhost',
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     synchronize: false,
     logging: false,
     timezone: 'Z',
-    entities: ['dist/data_module/entities/*.js'],
-    migrations: ['dist/data_module/migrations/*.js'],
+    entities: ['dist/data/entities/*.js'],
+    migrations: ['dist/data/migrations/*.js'],
     cli: {
-        migrationsDir: 'src/data_module/migrations'
+        migrationsDir: 'src/data/migrations'
     },
     extra : { connectionLimit: 10 }
 }
