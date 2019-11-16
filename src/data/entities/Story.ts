@@ -11,7 +11,7 @@ export class Story {
     @Column({ name: 'launch_date' })
     launchDate!: string
 
-    @Column({ unique: true })
+    @Column({type: 'varchar', length: '1024' })
     title!: string
 
     @Column({ type: 'varchar', length: '32' })
