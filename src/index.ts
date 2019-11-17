@@ -20,8 +20,11 @@ async function main() {
 
     // get a connection and create a new query runner
     qr = getConnection().createQueryRunner();
+    
+    // start a transaction
     await qr.startTransaction();
 
+    // prepate the queryBuilder
     qb = qr
         .manager
         .createQueryBuilder()
