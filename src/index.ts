@@ -1,3 +1,4 @@
+import { QueryRunner } from 'typeorm';
 import { createReadStream } from 'fs';
 import { Writable } from 'stream';
 import { getConnection, InsertQueryBuilder } from 'typeorm';
@@ -10,13 +11,19 @@ type StoryReq = Omit<Story, "id">;
 
 let rows: CsvRow[] = [];
 let qb: InsertQueryBuilder<Story>;
+let qr: QueryRunner;
 const numRows = 100 // will save 100 rows at a time.
 
 async function main() {
 
-    await connectToDb()
+    await connectToDb();
 
-    qb = getConnection()
+    // get a connection and create a new query runner
+    qr = getConnection().createQueryRunner();
+    await qr.startTransaction();
+
+    qb = qr
+        .manager
         .createQueryBuilder()
         .insert()
         .into(Story)
@@ -37,30 +44,37 @@ async function main() {
 
             } catch (err) {
                 console.error(err)
+                handleError()
             }
         }
 
         console.log('finished')
-        return getConnection().close()
+        await qr.commitTransaction();
+        return await getConnection().close()
     })
 
-    writeStream.on('error', (err: Error) => {
+    writeStream.on('error', async (err: Error) => {
         console.log('There was an error writing: ')
         console.log(err)
-        getConnection().close()
+        await handleError()
     })
 
-    readStream.on('error', (err: Error) => {
+    readStream.on('error', async (err: Error) => {
         console.log('There was an error reading the csv file: ')
         console.error(err)
-        getConnection().close()
+        await handleError()
     })
 
-    transformStream.on('error', (err: Error) => {
+    transformStream.on('error', async (err: Error) => {
         console.log('There was an error parsing the csv: ')
         console.error(err)
-        getConnection().close()
+        await handleError()
     })
+
+    async function handleError() {
+        await qr.rollbackTransaction()
+        await getConnection().close()
+    }
 }
 
 function write(row: CsvRow, enc: string, cb: (err?: Error | null) => void): void {
