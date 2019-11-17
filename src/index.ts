@@ -24,19 +24,22 @@ async function main() {
     const transformStream = readStream.pipe(csv.parse({ headers: true }))
     const writeStream = new Writable({ write, objectMode: true })
 
-    transformStream.pipe(writeStream).on('finish', () => {
-        // insert the remainders
+    transformStream.pipe(writeStream)
+
+    writeStream.on('finish', async () => {
+
         if (rows.length > 0) {
-            writeToDB(rows)
-                .then(() => {
-                    rows = [];
-                    console.log('finished')
-                    getConnection().close()
-                })
-                .catch((err: Error) => {
-                    console.error(err)
-                })
+            try {
+                // insert the remainders
+                await insertAsserted(rows);
+
+            } catch (err) {
+                console.error(err)
+            }
         }
+
+        console.log('finished')
+        return getConnection().close()
     })
 
     writeStream.on('error', (err: Error) => {
@@ -46,35 +49,30 @@ async function main() {
     })
 
     readStream.on('error', (err: Error) => {
-        console.log('There was an error reading: ')
+        console.log('There was an error reading the csv file: ')
         console.error(err)
         getConnection().close()
     })
 
     transformStream.on('error', (err: Error) => {
-        console.log('There was an error transforming: ')
+        console.log('There was an error parsing the csv: ')
         console.error(err)
         getConnection().close()
     })
 }
 
 function write(row: CsvRow, enc: string, cb: (err?: Error | null) => void): void {
+    //console.log(`write ${row.title}`)
     rows.push(row);
-    if (rows.length === 10000) {
-        writeToDB(rows)
-            .then(() => {
-                rows = []
-                cb()
-            })
-            .catch((err: Error) => {
-                cb(err)
-            })
+    if (rows.length === 3) {
+        insertAsserted(rows).then(_ => { rows = []; cb() }).catch((err: Error) => { cb(err) })
     } else {
         cb()
     }
 }
 
-async function writeToDB(rows: CsvRow[]): Promise<void> {
+/** Inserts asserted records to the db */
+async function insertAsserted(rows: CsvRow[]): Promise<void> {
 
     const asserted = rows.map(el => {
         const storyReq: StoryReq = {
