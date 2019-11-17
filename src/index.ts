@@ -6,7 +6,7 @@ import { Story } from './data/entities/Story';
 const csv = require('fast-csv');
 
 type CsvRow = { launchDate: string, title: string, privacy: string, likes: string }
-type StoryReq = Omit<Story, "id">
+type StoryReq = Omit<Story, "id">;
 
 let rows: CsvRow[] = [];
 let qb: InsertQueryBuilder<Story>;
@@ -25,6 +25,7 @@ async function main() {
     const transformStream = readStream.pipe(csv.parse({ headers: true }))
     const writeStream = new Writable({ write, objectMode: true })
 
+    console.log(`Starting. Will save ${numRows} at a time...`)
     transformStream.pipe(writeStream)
 
     writeStream.on('finish', async () => {
