@@ -4,10 +4,7 @@ This is a tool for inserting data from a csv file to a database. Is was designed
 
 ## Quick Start
 
-```$ git clone https://github.com/svegalopez/data-migration-tool.git```
-and 
-```$ cd data-migration-tool```
-
+Clone the project and cd into it.
 
 Before you start follow the [steps below](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#start-a-database-server), then run:
 
