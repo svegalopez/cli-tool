@@ -1,6 +1,6 @@
 # CSV to Database
 
-This is a tool for inserting data from a csv file to a database. Is was designed to support large files, see the [comments]().
+This is a tool for inserting data from a csv file to a database. Is was designed to support large files, see the [comments](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#comments).
 
 ## Quick Start
 
