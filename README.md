@@ -1,12 +1,6 @@
 # CSV to Database
 
-This is a tool for inserting data from a csv file to a database. Is was designed to support large files, see the [comments](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#comments).
-
-## Quick Start
-
-Before you start follow the [steps below](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#start-a-database-server), then run:
-
-```$ npm run```. This will use the ```'stories.csv'``` file located in the project's root.
+This is a tool for inserting data from a csv file to a database. Is was designed to support large files, see the [comments](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#comments). The script uses the ```'stories.csv'``` file located in the project's root, but it could be extended to receive a path via the command line.
 
 ### Start a Database server
 
@@ -48,10 +42,9 @@ DB_NAME=coding_challenge
 
 ### Initial Migration
 
-You'll also need a table to insert rows into. 
-Before you can run migrations you have to install the projects dependencies: ```$ npm i ```.
-Then, to create the table in the db run: ```$ npm run migrate:run```.
-This will run the migrations located at ```'src/data/migrations'```.
+You'll also need to create a table to insert the data into, so we will run a migration.
+Before you can run migrations you have to install the project's dependencies: ```$ npm i ```.
+Then run: ```$ npm run migrate:run```. This will run the migrations located at ```'src/data/migrations'```.
 
 Finally, to run the script: ```$ npm run```
 
