@@ -44,3 +44,8 @@ DB_PASSWORD=your-password
 DB_NAME=coding_challenge
 ```
 
+## Initial Migration
+
+To create the target table in the db run: ```npm run migrate:run```.
+This will run the migrations located at ```'src/data/migrations'```.
+
