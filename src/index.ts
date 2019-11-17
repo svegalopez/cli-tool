@@ -24,7 +24,7 @@ async function main() {
     // start a transaction
     await qr.startTransaction();
 
-    // prepate the queryBuilder
+    // prepare the queryBuilder
     qb = qr
         .manager
         .createQueryBuilder()
