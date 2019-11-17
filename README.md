@@ -48,7 +48,7 @@ Then run: ```$ npm run migrate:run```. This will run the migrations located at `
 
 ### Run the script!
 
-Finally, to run the script: ```$ npm run``` That will copy all the rows in the csv into a table, after asserting each row's type at runtime.
+Finally, to run the script: ```$ npm run```. That will copy all the rows in the csv into a table, after asserting each row's type at runtime.
 
 ## Comments 
 
