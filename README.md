@@ -1,6 +1,6 @@
 # CSV to Database
 
-This is a tool for inserting data from a csv file to a database. It was designed to support large files, see the [comments](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#comments). The script uses the ```'stories.csv'``` file located in the project's root, but it could be extended to receive a path via the command line.
+This is a tool for inserting data from a csv file to a database. It was designed to support large files, see the [comments](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#comments). The script uses the ```'stories.csv'``` file located in the project's root, but it could be extended to receive a path via the command line. It uses a transaction so that either all row insertions succeed or none do.
 
 ### Start a Database server
 
