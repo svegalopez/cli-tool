@@ -52,6 +52,8 @@ You'll also need a table to insert rows into.
 To create the table in the db run: ```$ npm run migrate:run```.
 This will run the migrations located at ```'src/data/migrations'```.
 
+Now you can run: ```$ npm install``` and then ```$ npm run```
+
 ## Comments 
 
 I tried this approach using streams with the idea that the csv file could potentially include millions of rows.
