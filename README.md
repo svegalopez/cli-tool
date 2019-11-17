@@ -49,10 +49,11 @@ DB_NAME=coding_challenge
 ### Initial Migration
 
 You'll also need a table to insert rows into. 
-To create the table in the db run: ```$ npm run migrate:run```.
+Before you can run migrations you have to install the projects dependencies: ```$ npm i ```.
+Then, to create the table in the db run: ```$ npm run migrate:run```.
 This will run the migrations located at ```'src/data/migrations'```.
 
-Now you can run: ```$ npm install``` and then ```$ npm run```
+Finally, to run the script: ```$ npm run```
 
 ## Comments 
 
