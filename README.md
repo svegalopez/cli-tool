@@ -11,7 +11,7 @@ run ```npm install``` and then ```npm run```. This will use the ```'stories.csv'
 You'll need a db. To run a mysql db:
 
 ```
-docker run \
+$ docker run \
 -d \
 -p 3306:3306 \
 --volume=/your-data-directory:/var/lib/mysql \
@@ -21,7 +21,7 @@ mysql:5.7
 ```
 ## Access mysql through container
 ```
-docker exec -ti mysql-server bash
+$ docker exec -ti mysql-server bash
 ```
 
 ```
@@ -46,6 +46,6 @@ DB_NAME=coding_challenge
 
 ## Initial Migration
 
-To create the target table in the db run: ```npm run migrate:run```.
+To create the target table in the db run: ```$ npm run migrate:run```.
 This will run the migrations located at ```'src/data/migrations'```.
 
