@@ -54,5 +54,7 @@ This will run the migrations located at ```'src/data/migrations'```.
 I tried this approach using streams with the idea that the csv file could potentially include millions of rows.
 For this particular example we only had approx 350 rows so a simpler approach would have worked, but I wanted to experiment.
 Using streams, and specifically the ```.pipe``` method, node.js handles the back pressure, so the program will not choke the available memory of the host. A csv row is read, transformed into an object and accumulated in an array ```rows```.
+When the length of that array reaches ```numRows```, the rows in the array are inserted into the db using a single sql query.
+When I was developing I used about 900k rows, and set ```numRows=10000```.
 
 
