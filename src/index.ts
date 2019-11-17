@@ -10,6 +10,7 @@ type StoryReq = Omit<Story, "id">
 
 let rows: CsvRow[] = [];
 let qb: InsertQueryBuilder<Story>;
+const numRows = 100 // will save 100 rows at a time.
 
 async function main() {
 
@@ -30,7 +31,7 @@ async function main() {
 
         if (rows.length > 0) {
             try {
-                // insert the remainders
+                // insert the remainders, eg: 56 in this example
                 await insertAsserted(rows);
 
             } catch (err) {
@@ -64,7 +65,7 @@ async function main() {
 function write(row: CsvRow, enc: string, cb: (err?: Error | null) => void): void {
     //console.log(`write ${row.title}`)
     rows.push(row);
-    if (rows.length === 3) {
+    if (rows.length === numRows) {
         insertAsserted(rows).then(_ => { rows = []; cb() }).catch((err: Error) => { cb(err) })
     } else {
         cb()
