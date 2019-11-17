@@ -2,7 +2,7 @@ import { createReadStream } from 'fs';
 import { Writable } from 'stream';
 import { getConnection, InsertQueryBuilder } from 'typeorm';
 import { connectToDb } from './data';
-import { Story } from './data/entities/Story';
+import { Story, Privacy } from './data/entities/Story';
 const csv = require('fast-csv');
 
 type CsvRow = { launchDate: string, title: string, privacy: string, likes: string }
@@ -79,7 +79,7 @@ async function insertAsserted(rows: CsvRow[]): Promise<void> {
     const asserted = rows.map(el => {
         const storyReq: StoryReq = {
             likes: parseInt(el.likes),
-            privacy: el.privacy as "private" | "public",
+            privacy: el.privacy as Privacy,
             launchDate: el.launchDate,
             title: el.title
         }
@@ -99,7 +99,7 @@ function isStoryReq(args: any): args is StoryReq {
         && typeof args.likes === "number"
         && typeof args.title === "string"
         && typeof args.privacy === "string"
-        && ["private", "public"].includes(args.privacy)
+        && Object.values(Privacy).includes(args.privacy)
 }
 
 main().catch(err => console.error(err))
