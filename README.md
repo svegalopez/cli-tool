@@ -15,7 +15,8 @@ docker run \
 -d \
 -p 3306:3306 \
 --volume=/your-data-directory:/var/lib/mysql \
---name=mysql-server --env="MYSQL_ROOT_PASSWORD=your_password" \
+--name=mysql-server \
+--env="MYSQL_ROOT_PASSWORD=your_password" \
 mysql:5.7
 ```
 ## Access mysql through container
