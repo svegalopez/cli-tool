@@ -46,6 +46,8 @@ You'll also need to create a table to insert the data into, so we will run a mig
 Before you can run migrations you have to install the project's dependencies: ```$ npm i ```.<br>
 Then run: ```$ npm run migrate:run```. This will run the migrations located at ```'src/data/migrations'```.
 
+### Run the script!
+
 Finally, to run the script: ```$ npm run```
 
 ## Comments 
