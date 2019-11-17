@@ -82,7 +82,6 @@ async function writeToDB(rows: CsvRow[]): Promise<void> {
             privacy: el.privacy as "private" | "public",
             launchDate: el.launchDate,
             title: el.title
-
         }
         if (isStoryReq(storyReq)) return storyReq
         else throw Error(`${JSON.stringify(el)} does not meet schema`)
