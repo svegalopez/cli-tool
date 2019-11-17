@@ -33,5 +33,13 @@ CREATE DATABASE coding_challenge;
 ```
 ## DB Configuration
 
+The db configuration file is located at 'src/data/config/db-config.ts'.
+You will need at minimum three env variables. 
+Place your environment variables in a ```.env``` file located in the project's root: 
 
+```
+DB_USERNAME=root
+DB_PASSWORD=your-password
+DB_NAME=coding_challenge
+```
 
