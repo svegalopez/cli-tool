@@ -4,7 +4,7 @@ This is a tool for inserting data from a csv file to a database.
 
 ## Quick Start
 
-run ```npm install``` and then ```npm run```. This will use the 'stories.csv' file located in the project's root.
+run ```npm install``` and then ```npm run```. This will use the ```'stories.csv'``` file located in the project's root.
 
 ## Start a Database server
 
@@ -34,7 +34,7 @@ CREATE DATABASE coding_challenge;
 ```
 ## DB Configuration
 
-The db configuration file is located at 'src/data/config/db-config.ts'.
+The db configuration file is located at ```'src/data/config/db-config.ts'```.
 You will need at minimum three env variables. 
 Place your environment variables in a ```.env``` file located in the project's root: 
 
