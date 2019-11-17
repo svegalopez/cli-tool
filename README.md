@@ -48,7 +48,8 @@ DB_NAME=coding_challenge
 
 ### Initial Migration
 
-To create the target table in the db run: ```$ npm run migrate:run```.
+You'll also need a table to insert rows into. 
+To create the table in the db run: ```$ npm run migrate:run```.
 This will run the migrations located at ```'src/data/migrations'```.
 
 ## Comments 
