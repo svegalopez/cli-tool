@@ -4,7 +4,7 @@ This is a tool for inserting data from a csv file to a database.
 
 ## Quick Start
 
-Before you start follow the steps below, then run:
+Before you start follow the [steps below](https://github.com/svegalopez/data-migration-tool/blob/master/README.md#start-a-database-server), then run:
 
 ```$ npm install``` and then ```$ npm run```. This will use the ```'stories.csv'``` file located in the project's root.
 
