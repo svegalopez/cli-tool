@@ -111,7 +111,7 @@ async function insertAsserted(rows: CsvRow[]): Promise<void> {
     console.log(`saved ${asserted.length} rows`);
 }
 
-function isStoryReq(args: any): args is StoryReq {
+function isStoryReq(args: StoryReq): args is StoryReq {
     return typeof args.launchDate === "string"
         && typeof args.likes === "number"
         && typeof args.title === "string"
