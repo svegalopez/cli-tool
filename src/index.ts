@@ -20,7 +20,7 @@ async function main() {
 
     // get a connection and create a new query runner
     qr = getConnection().createQueryRunner();
-    
+
     // start a transaction
     await qr.startTransaction();
 
@@ -84,7 +84,9 @@ function write(row: CsvRow, enc: string, cb: (err?: Error | null) => void): void
     //console.log(`write ${row.title}`)
     rows.push(row);
     if (rows.length === numRows) {
-        insertAsserted(rows).then(_ => { rows = []; cb() }).catch((err: Error) => { cb(err) })
+        insertAsserted(rows)
+            .then(_ => { rows = []; cb() })
+            .catch((err: Error) => { cb(err) })
     } else {
         cb()
     }
